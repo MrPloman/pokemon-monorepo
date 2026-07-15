@@ -1,0 +1,21 @@
+@use "../styles/variables" as vars;
+
+.badge {
+    border: none;
+    border-radius: vars.$radius-base * 2;
+    font-size: 1rem;
+    cursor: pointer;
+    color: vars.$color-ink;
+    padding: vars.$spacing-xs vars.$spacing-md;
+    background-color: var(--badge-color);
+
+    &:focus-visible {
+        outline: 2px solid vars.$color-primary;
+        outline-offset: 2px;
+    }
+
+    &.selected {
+        background-color: black;
+        color: white;
+    }
+}
