@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button, Card, Badge } from "@repo/ui";
+import { Button, Card, Badge, Skeleton } from "@repo/ui";
 
 export default function Home() {
     return (
@@ -28,6 +28,7 @@ export default function Home() {
                         { variant: "secondary", label: "Compartir" },
                     ]}
                 />
+                <Skeleton variant="rect" width={200} height={100} />
             </main>
         </div>
     );
