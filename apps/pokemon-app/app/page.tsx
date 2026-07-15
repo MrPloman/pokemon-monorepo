@@ -13,8 +13,8 @@ export default function Home() {
                     height={20}
                     priority
                 />
-                <Button variant="secondary">Secundario</Button>
-                <Button disabled>Deshabilitado</Button>{" "}
+                <Button variant="secondary" label="Secundario" />
+                <Button disabled label="Deshabilitado" />
             </main>
         </div>
     );
