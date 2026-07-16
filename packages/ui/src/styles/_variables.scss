@@ -1,5 +1,7 @@
-$color-primary: #b4805f;
-$color-primary-contrast: #e8b89485;
+@use "sass:color";
+
+$color-primary: color.adjust(#b4805f, $lightness: -12%);
+$color-primary-contrast: rgb(255, 255, 255);
 $radius-base: 6px;
 $spacing-sm: 0.5rem;
 $spacing-md: 1rem;
