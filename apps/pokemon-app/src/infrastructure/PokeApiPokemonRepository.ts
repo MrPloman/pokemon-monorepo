@@ -1,4 +1,4 @@
-import type { PokemonDetails, PokemonPreview } from "@repo/core";
+import type { PokemonDetails, PokemonPreview, PokemonType } from "@repo/core";
 import { PaginatedResult, PokemonRepository } from "@repo/core";
 import { isPokemonDetailsObject } from "./validators";
 
@@ -101,11 +101,75 @@ export class PokeApiPokemonRepository implements PokemonRepository {
                 total: count,
             };
     }
+
+    async findAllNames(): Promise<{ id: number; name: string }[]> {
+        const response = await fetch(`${this.baseUrl}/pokemon/?limit=1351`);
+        const {
+            results,
+        }: {
+            count: number;
+            next: string;
+            results: { name: string; url: string }[];
+        } = await response.json();
+        return results.map(
+            (pokemon: { name: string; url: string }): { name: string; id: number } => {
+                const parts = pokemon.url.split("/").filter(Boolean); // quita todos los strings vacíos
+                const id = parts[parts.length - 1];
+                return { name: pokemon.name, id: Number(id) };
+            },
+        );
+    }
+
     async findById(id: string): Promise<PokemonDetails | null> {
         if (!id) return null;
         const response = await fetch(`${this.baseUrl}/pokemon/${id}`);
         const pokemonDetails: unknown = await response.json();
         if (!pokemonDetails) return null;
         return mapToPokemonDetails(pokemonDetails);
+    }
+    async findByType(types: PokemonType[]): Promise<PokemonPreview[]> {
+        const responses = await Promise.all(
+            types.map((type) => {
+                return fetch(`${this.baseUrl}/type/${type}`);
+            }),
+        );
+
+        const typeDataList = await Promise.all(responses.map((r) => r.json()));
+        const pokemonsBasicInfo = typeDataList
+            .map((data) =>
+                data.pokemon.map(
+                    (pokemonBasicInfo: { pokemon: { name: string; url: string } }) =>
+                        pokemonBasicInfo.pokemon,
+                ),
+            )
+            .flat();
+        const responsesPokemonDetail = await Promise.all(
+            pokemonsBasicInfo.map((callInfo: { name: string; url: string }) => {
+                return fetch(callInfo.url);
+            }),
+        );
+
+        const pokemonStructuredInfo = await Promise.all(
+            responsesPokemonDetail.map((response: any) => response.json()),
+        );
+
+        const details = pokemonStructuredInfo
+            .map((raw) => mapToPokemonDetails(raw))
+            .filter((p): p is PokemonDetails => p !== null);
+
+        const previews: PokemonPreview[] = details.map((d) => ({
+            id: d.id,
+            name: d.name,
+            imageUrl: d.imageUrl,
+            types: d.types,
+        }));
+
+        const seen = new Set<number>();
+        const unique = previews.filter((p) => {
+            if (seen.has(p.id)) return false;
+            seen.add(p.id);
+            return true;
+        });
+        return unique;
     }
 }
