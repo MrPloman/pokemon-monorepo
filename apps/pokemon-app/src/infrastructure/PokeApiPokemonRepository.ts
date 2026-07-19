@@ -113,7 +113,7 @@ export class PokeApiPokemonRepository implements PokemonRepository {
         } = await response.json();
         return results.map(
             (pokemon: { name: string; url: string }): { name: string; id: number } => {
-                const parts = pokemon.url.split("/").filter(Boolean); // quita todos los strings vacíos
+                const parts = pokemon.url.split("/").filter(Boolean);
                 const id = parts[parts.length - 1];
                 return { name: pokemon.name, id: Number(id) };
             },

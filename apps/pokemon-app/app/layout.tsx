@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.scss";
 import "@repo/ui/dist/index.css";
+import { QueryProvider } from "@/src/providers/QueryProvider";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body>{children}</body>
+            <body>
+                <QueryProvider>{children}</QueryProvider>
+            </body>
         </html>
     );
 }

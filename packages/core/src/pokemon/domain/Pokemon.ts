@@ -18,7 +18,7 @@ export type PokemonType =
     | "steel"
     | "fairy";
 
-const ALL_POKEMON_TYPES: PokemonType[] = [
+export const ALL_POKEMON_TYPES: PokemonType[] = [
     "normal",
     "fire",
     "water",
