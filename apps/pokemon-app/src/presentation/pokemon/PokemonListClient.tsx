@@ -9,7 +9,7 @@ import {
     ALL_POKEMON_TYPES,
 } from "@repo/core";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getNextPageParam } from "./getNextPageParam";
 import { Badge, Card } from "@repo/ui";
 import { getTypeColor } from "./pokemonColors";
@@ -20,6 +20,7 @@ export function PokemonListClient() {
         search: "",
         types: [],
     });
+    const sentinelRef = useRef<HTMLDivElement>(null);
 
     const searchChanged = (search: string) => {
         updateFilters((previousValue: PokemonFilters) => ({ ...previousValue, search }));
@@ -43,6 +44,23 @@ export function PokemonListClient() {
     });
 
     const allItems = query.data?.pages.flatMap((page) => page.items) ?? [];
+
+    useEffect(() => {
+        const sentinel = sentinelRef.current;
+        if (!sentinel) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && query.hasNextPage && !query.isFetchingNextPage) {
+                    query.fetchNextPage();
+                }
+            },
+            { rootMargin: "200px" },
+        );
+
+        observer.observe(sentinel);
+        return () => observer.disconnect();
+    }, [query.hasNextPage, query.isFetchingNextPage, query.fetchNextPage]);
 
     return (
         <div>
@@ -83,9 +101,10 @@ export function PokemonListClient() {
             </div>
 
             {query.hasNextPage && (
-                <button onClick={() => query.fetchNextPage()} disabled={query.isFetchingNextPage}>
-                    {query.isFetchingNextPage ? "Cargando..." : "Cargar más"}
-                </button>
+                <>
+                    <div ref={sentinelRef} style={{ height: "1px" }} />
+                    {query.isFetchingNextPage && <p>Cargando más...</p>}
+                </>
             )}
         </div>
     );
