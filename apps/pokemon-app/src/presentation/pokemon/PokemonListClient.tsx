@@ -14,12 +14,17 @@ import { getNextPageParam } from "./getNextPageParam";
 import { Badge, Card } from "@repo/ui";
 import { getTypeColor } from "./pokemonColors";
 
+// Function Component for the client-side rendering of the component. Pokemon page.tsx child. It renders the UI.
 export function PokemonListClient() {
+    // Importing all types of Pokemon from the core package. This is used to render the filter badges for each type.
     const ALL_TYPES = ALL_POKEMON_TYPES;
+
+    // Setting the useState hook to manage the filters for the query.
     const [filters, updateFilters] = useState<PokemonFilters>({
         search: "",
         types: [],
     });
+
     const sentinelRef = useRef<HTMLDivElement>(null);
 
     const searchChanged = (search: string) => {
