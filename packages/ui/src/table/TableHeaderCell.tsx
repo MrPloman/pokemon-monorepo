@@ -1,5 +1,4 @@
 import { SortIcon } from "./SortIcon";
-import styles from "./TableHeaderCell.module.scss";
 import type { ThHTMLAttributes } from "react";
 
 export interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
@@ -16,14 +15,9 @@ export function TableHeaderCell({
     ...props
 }: TableHeaderCellProps) {
     return (
-        <th
-            scope="col"
-            aria-sort={sortable ? sortDirection : undefined}
-            className={styles.headerCell}
-            {...props}
-        >
+        <th scope="col" aria-sort={sortable ? sortDirection : undefined} {...props}>
             {sortable ? (
-                <button type="button" onClick={onSortToggle} className={styles.sortButton}>
+                <button type="button" onClick={onSortToggle}>
                     {children}
                     <SortIcon direction={sortDirection} />
                 </button>

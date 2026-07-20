@@ -1,0 +1,17 @@
+@use "../styles/variables" as vars;
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: vars.$spacing-sm vars.$spacing-md;
+        text-align: left;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+    }
+}
