@@ -25,22 +25,30 @@ export function PokemonListClient() {
         types: [],
     });
 
+    // This is a reference to detect when the user reach the end of the page and trigger the next page fetch.
     const sentinelRef = useRef<HTMLDivElement>(null);
 
+    // Hook to update the search filter when the user types in the search input.
     const searchChanged = (search: string) => {
         updateFilters((previousValue: PokemonFilters) => ({ ...previousValue, search }));
     };
+
+    // Hook to update the filters when the user selects or deselects a type.
     const filtersChanged = (type: PokemonType) => {
         updateFilters((previousValue: PokemonFilters) => ({
             ...previousValue,
             types: updateTypesArray(type, previousValue.types ?? []),
         }));
     };
+
+    // Functions what checks the array of types and adds or removes the type.
     const updateTypesArray = (type: PokemonType, types: PokemonType[]): PokemonType[] => {
         if (types.includes(type)) return types.filter((currentType) => currentType !== type);
         else return [...types, type];
     };
 
+    // The component core. When the filters change, the query is re-fetched with the new filters.
+    // The useInfiniteQuery hook is used to fetch the data for an infinite query, which is useful for paginated data fetching.
     const query = useInfiniteQuery({
         queryKey: pokemonKeys.list(filters),
         queryFn: ({ pageParam }) => fetchPokemonList({ limit: 10, offset: pageParam, filters }),
@@ -48,12 +56,17 @@ export function PokemonListClient() {
         getNextPageParam,
     });
 
+    // Parsing of the data from the query to get all the items in a flat array. This is used to render the list of Pokemon.
     const allItems = query.data?.pages.flatMap((page) => page.items) ?? [];
 
     useEffect(() => {
+        // When the component is mounted, we create an IntersectionObserver to detect when the user reaches the end of the page.
+        // When the sentinel element is intersecting, we fetch the next page of data if there is a next page and we are not already fetching the next page.
         const sentinel = sentinelRef.current;
         if (!sentinel) return;
 
+        // Observer which checks if the sentinel is intersecting with the viewport.
+        // If it is, and there is a next page, and we are not already fetching the next page, we fetch the next page.
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting && query.hasNextPage && !query.isFetchingNextPage) {
@@ -63,7 +76,10 @@ export function PokemonListClient() {
             { rootMargin: "200px" },
         );
 
+        // Sentinel watching activation
         observer.observe(sentinel);
+        // Cleanup function to disconnect the observer when the component is unmounted or when the dependencies change.
+        // This prevents memory leaks and ensures that the observer is not left running when it is no longer needed.
         return () => observer.disconnect();
     }, [query.hasNextPage, query.isFetchingNextPage, query.fetchNextPage]);
 
