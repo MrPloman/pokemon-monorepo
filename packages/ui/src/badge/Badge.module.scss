@@ -1,21 +1,31 @@
-@use "../styles/variables" as vars;
+@use "../styles/variables" as v;
 
 .badge {
     border: none;
-    border-radius: vars.$radius-base * 2;
-    font-size: 1rem;
+    border-radius: v.$radius-pill;
+    padding: v.$spacing-xs v.$spacing-md;
+    font-family: v.$font-body;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
     cursor: pointer;
-    padding: vars.$spacing-xs vars.$spacing-md;
-    color: var(--badge-text-color, #{vars.$color-ink});
     background-color: var(--badge-color);
+    color: var(--badge-text-color, #{v.$color-ink});
+    transition:
+        transform v.$transition-base,
+        box-shadow v.$transition-base;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: v.$shadow-sm;
+    }
 
     &:focus-visible {
-        outline: 2px solid vars.$color-primary;
+        outline: 2px solid v.$color-primary;
         outline-offset: 2px;
     }
 
     &.selected {
-        background-color: black;
-        color: white;
+        box-shadow: 0 0 0 2px v.$color-ink;
     }
 }

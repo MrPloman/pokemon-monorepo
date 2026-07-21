@@ -1,34 +1,40 @@
-@use "../styles/variables" as vars;
+@use "../styles/variables" as v;
 
 .layout {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: v.$color-bg;
 }
 
 .header {
-    padding: vars.$spacing-md;
+    padding: v.$spacing-md v.$spacing-lg;
+    background: v.$color-surface;
+    border-bottom: 1px solid v.$color-border;
 }
 
 .main {
     flex: 1;
-    padding: vars.$spacing-md;
+    padding: v.$spacing-lg;
 }
 
 .footer {
-    padding: vars.$spacing-md;
+    padding: v.$spacing-md v.$spacing-lg;
     margin-top: auto;
+    border-top: 1px solid v.$color-border;
+    color: v.$color-ink-muted;
 }
 
 .skipLink {
     position: absolute;
     top: -40px;
     left: 0;
-    background: vars.$color-primary;
-    color: vars.$color-primary-contrast;
-    padding: vars.$spacing-sm vars.$spacing-md;
+    background: v.$color-primary;
+    color: v.$color-primary-contrast;
+    padding: v.$spacing-sm v.$spacing-md;
     z-index: 100;
-    transition: top 0.2s ease;
+    border-radius: 0 0 v.$radius-sm 0;
+    transition: top v.$transition-base;
 
     &:focus {
         top: 0;

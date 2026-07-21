@@ -90,13 +90,23 @@ export function PokemonListClient() {
 
     const columns = useMemo(
         () => [
+            columnHelper.accessor("id", {
+                header: "Número",
+                cell: (info) => info.getValue(),
+                enableSorting: true,
+            }),
             columnHelper.accessor("name", {
                 header: "Nombre",
                 cell: (info) => info.getValue()[0].toUpperCase() + info.getValue().slice(1),
+                enableSorting: true,
             }),
             columnHelper.accessor("types", {
                 header: "Tipos",
-                cell: (info) => info.getValue().join(", "),
+                cell: (info) =>
+                    info
+                        .getValue()
+                        .map((type: string) => type.charAt(0).toUpperCase() + type.slice(1))
+                        .join(", "),
                 enableSorting: false,
             }),
         ],
@@ -137,31 +147,38 @@ export function PokemonListClient() {
     }, [query.hasNextPage, query.isFetchingNextPage, query.fetchNextPage]);
 
     return (
-        <div>
-            <button
-                type="button"
-                onClick={() => setView((v) => (v === "cards" ? "table" : "cards"))}
-                aria-pressed={view === "table"}
-            >
-                Ver como {view === "cards" ? "tabla" : "tarjetas"}
-            </button>
-            <input
-                type="text"
-                value={filters.search}
-                onChange={(e) => searchChanged(e.target.value)}
-                placeholder="Buscar Pokémon..."
-            />
-
-            <div>
-                {ALL_TYPES.map((type: PokemonType) => (
-                    <Badge
-                        key={type}
-                        label={type}
-                        color={getTypeColor(type)}
-                        selected={filters.types?.includes(type) ?? false}
-                        onClick={() => filtersChanged(type)}
+        <div className={styles.pageContainer}>
+            <div className={styles.controls}>
+                <div className={styles.searchRow}>
+                    <input
+                        type="text"
+                        className={styles.searchInput}
+                        value={filters.search}
+                        onChange={(e) => searchChanged(e.target.value)}
+                        placeholder="Buscar Pokémon..."
+                        aria-label="Buscar Pokémon por nombre"
                     />
-                ))}
+                    <button
+                        type="button"
+                        className={styles.viewToggle}
+                        onClick={() => setView((v) => (v === "cards" ? "table" : "cards"))}
+                        aria-pressed={view === "table"}
+                    >
+                        Ver como {view === "cards" ? "tabla" : "tarjetas"}
+                    </button>
+                </div>
+
+                <div className={styles.typeFilters}>
+                    {ALL_TYPES.map((type: PokemonType) => (
+                        <Badge
+                            key={type}
+                            label={type}
+                            color={getTypeColor(type)}
+                            selected={filters.types?.includes(type) ?? false}
+                            onClick={() => filtersChanged(type)}
+                        />
+                    ))}
+                </div>
             </div>
 
             {view === "cards" ? (
@@ -182,50 +199,57 @@ export function PokemonListClient() {
                     ))}
                 </div>
             ) : (
-                <Table>
-                    <TableHead>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => (
-                                    <TableHeaderCell
-                                        key={header.id}
-                                        sortable={header.column.getCanSort()}
-                                        sortDirection={
-                                            header.column.getIsSorted() === "asc"
-                                                ? "ascending"
-                                                : header.column.getIsSorted() === "desc"
-                                                  ? "descending"
-                                                  : "none"
-                                        }
-                                        onSortToggle={() => header.column.toggleSorting()}
-                                    >
-                                        {flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext(),
-                                        )}
-                                    </TableHeaderCell>
-                                ))}
-                            </TableRow>
-                        ))}
-                    </TableHead>
-                    <TableBody>
-                        {table.getRowModel().rows.map((row) => (
-                            <TableRow key={row.id}>
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                <div className={styles.tableContainer}>
+                    <Table>
+                        <TableHead>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <TableRow key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => (
+                                        <TableHeaderCell
+                                            key={header.id}
+                                            sortable={header.column.getCanSort()}
+                                            sortDirection={
+                                                header.column.getIsSorted() === "asc"
+                                                    ? "ascending"
+                                                    : header.column.getIsSorted() === "desc"
+                                                      ? "descending"
+                                                      : "none"
+                                            }
+                                            onSortToggle={() => header.column.toggleSorting()}
+                                        >
+                                            {flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext(),
+                                            )}
+                                        </TableHeaderCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </TableHead>
+                        <TableBody>
+                            {table.getRowModel().rows.map((row) => (
+                                <TableRow key={row.id}>
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext(),
+                                            )}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
             )}
 
             {query.hasNextPage && (
                 <>
                     <div ref={sentinelRef} style={{ height: "1px" }} />
-                    {query.isFetchingNextPage && <p>Cargando más...</p>}
+                    {query.isFetchingNextPage && (
+                        <p className={styles.loadingMore}>Cargando más...</p>
+                    )}
                 </>
             )}
         </div>
