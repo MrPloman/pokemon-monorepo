@@ -68,16 +68,13 @@ export class PokeApiPokemonRepository implements PokemonRepository {
                 hasMore: false,
                 total: 0,
             };
-        // Map each item into a Promise (and handle the 'else' case properly)
         const pokemonPromises = results.map(async (pokemon: { name: string; url: string }) => {
             const _pokemon = await findByUrl(pokemon.url);
-            return _pokemon || null; // standardizes missing items as null
+            return _pokemon || null;
         });
 
-        // Await all promises concurrently
         const resolvedList = await Promise.all(pokemonPromises);
 
-        // Filter out null/undefined results so the type strictly matches PokemonDetails[]
         let pokemonList: PokemonDetails[] = resolvedList.filter(
             (pokemon): pokemon is PokemonDetails => pokemon !== null,
         );
@@ -127,6 +124,7 @@ export class PokeApiPokemonRepository implements PokemonRepository {
         if (!pokemonDetails) return null;
         return mapToPokemonDetails(pokemonDetails);
     }
+
     async findByType(types: PokemonType[]): Promise<PokemonPreview[]> {
         const responses = await Promise.all(
             types.map((type) => {
@@ -143,14 +141,19 @@ export class PokeApiPokemonRepository implements PokemonRepository {
                 ),
             )
             .flat();
-        const responsesPokemonDetail = await Promise.all(
-            pokemonsBasicInfo.map((callInfo: { name: string; url: string }) => {
-                return fetch(callInfo.url);
-            }),
+
+        const uniqueByUrl = Array.from(new Map(pokemonsBasicInfo.map((p) => [p.url, p])).values());
+
+        const responsesPokemonDetail = await Promise.allSettled(
+            uniqueByUrl.map((callInfo: { name: string; url: string }) => fetch(callInfo.url)),
         );
 
+        const successfulResponses = responsesPokemonDetail
+            .filter((r): r is PromiseFulfilledResult<Response> => r.status === "fulfilled")
+            .map((r) => r.value);
+
         const pokemonStructuredInfo = await Promise.all(
-            responsesPokemonDetail.map((response: any) => response.json()),
+            successfulResponses.map((response) => response.json()),
         );
 
         const details = pokemonStructuredInfo
