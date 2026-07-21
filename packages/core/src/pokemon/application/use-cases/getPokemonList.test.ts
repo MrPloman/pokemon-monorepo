@@ -123,7 +123,7 @@ class FakePokemonRepository implements PokemonRepository {
     }
 }
 describe("GetPokemonListUseCase", () => {
-    it("sin filtros, delega directo a findAllPreview", async () => {
+    it("No Filters", async () => {
         const useCase = new GetPokemonListUseCase(new FakePokemonRepository());
 
         const result = await useCase.execute({ limit: 3, offset: 0 });
@@ -133,14 +133,29 @@ describe("GetPokemonListUseCase", () => {
     });
 
     it("Filter only by types", async () => {
-        // filters: { types: ["fire"] } — (charmander, charmeleon, charizard)
+        const useCase = new GetPokemonListUseCase(new FakePokemonRepository());
+        const result = await useCase.execute({ filters: { types: ["fire"] } });
+        expect(result.items).toHaveLength(3);
+        result.items.forEach((item) => {
+            expect(item.types.includes("fire")).toBe(true);
+        });
     });
 
-    it("busca por prefijo del nombre", async () => {
-        // filters: { search: "char" } — (charmander, charmeleon, charizard)
+    it("Search Prefix Name", async () => {
+        const useCase = new GetPokemonListUseCase(new FakePokemonRepository());
+        const result = await useCase.execute({ filters: { search: "char" } });
+        expect(result.items).toHaveLength(3);
+        result.items.forEach((item) => {
+            expect(item.name.toLocaleLowerCase()).toContain("char");
+        });
     });
 
-    it("combina búsqueda y tipo a la vez", async () => {
-        //filters: { search: "char", types: ["flying"] } — solo charizard
+    it("Combine Search by Type and Search", async () => {
+        const useCase = new GetPokemonListUseCase(new FakePokemonRepository());
+        const result = await useCase.execute({ filters: { search: "char", types: ["flying"] } });
+        expect(result.items).toHaveLength(1);
+        result.items.forEach((item) => {
+            expect(item.name.toLocaleLowerCase()).toBe("charizard");
+        });
     });
 });
