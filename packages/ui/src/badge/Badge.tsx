@@ -5,7 +5,7 @@ import { getAccessibleTextColor } from "../utils/getAccessibleTextColor";
 export interface BadgeProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     label: string;
     color: string;
-    selected: boolean;
+    selected?: boolean;
 }
 
 export function Badge({ label, color, selected = false, className, ...props }: BadgeProps) {
