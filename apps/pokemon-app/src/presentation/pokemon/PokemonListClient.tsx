@@ -22,6 +22,7 @@ import {
     TableHead,
     TableHeaderCell,
     TableRow,
+    Skeleton,
 } from "@repo/ui";
 import { getTypeColor } from "./pokemonColors";
 import {
@@ -195,7 +196,13 @@ export function PokemonListClient() {
                 </div>
             </div>
 
-            {view === "cards" ? (
+            {query.isLoading ? (
+                <div className={styles.cardsGrid}>
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <Skeleton key={i} variant="rect" height={320} />
+                    ))}
+                </div>
+            ) : view === "cards" ? (
                 <div className={styles.cardsGrid}>
                     {allItems.map((pokemon) => (
                         <Card
