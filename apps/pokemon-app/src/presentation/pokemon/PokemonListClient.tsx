@@ -101,12 +101,26 @@ export function PokemonListClient() {
                 enableSorting: true,
             }),
             columnHelper.accessor("types", {
-                header: "Tipos",
-                cell: (info) =>
-                    info
-                        .getValue()
-                        .map((type: string) => type.charAt(0).toUpperCase() + type.slice(1))
-                        .join(", "),
+                cell: (info) => (
+                    <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                        {info.getValue().map((type: string) => (
+                            <span
+                                key={type}
+                                style={{
+                                    backgroundColor: getTypeColor(type),
+                                    color: "#fff",
+                                    padding: "0.15rem 0.6rem",
+                                    borderRadius: "999px",
+                                    fontSize: "0.75rem",
+                                    fontWeight: 600,
+                                    textTransform: "capitalize",
+                                }}
+                            >
+                                {type}
+                            </span>
+                        ))}
+                    </div>
+                ),
                 enableSorting: false,
             }),
         ],
