@@ -22,18 +22,9 @@ export const CardFulfilled: Story = {
             { variant: "primary", label: "Ver detalles" },
             { variant: "secondary", label: "Compartir" },
         ],
-    },
-};
-
-export const CardEmpty: Story = {
-    args: {
-        img: {
-            src: "",
-            alt: "",
-        },
-        id: "",
-        title: "",
-
-        buttons: [],
+        badges: [
+            { label: "Grass", color: "green", selected: false },
+            { label: "Poison", color: "purple", selected: false },
+        ],
     },
 };
