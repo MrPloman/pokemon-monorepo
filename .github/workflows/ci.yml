@@ -28,7 +28,7 @@ jobs:
 
             - name: Install Playwright browsers
               run: pnpm exec playwright install --with-deps chromium
-              working-directory: packages/uim
+              working-directory: packages/ui
 
             - name: Lint
               run: pnpm ci:check
