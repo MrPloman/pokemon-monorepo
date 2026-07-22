@@ -1,4 +1,36 @@
-export function isPokemonDetailsObject(data: unknown) {
+import type { PokemonType } from "@repo/core";
+
+interface RawPokemonType {
+    slot: number;
+    type: { name: PokemonType };
+}
+
+interface RawPokemonAbility {
+    ability: { name: string };
+}
+
+interface RawPokemonMove {
+    move: { name: string };
+}
+
+interface RawPokemonStat {
+    base_stat: number;
+    stat: { name: string };
+}
+
+interface RawPokemonDetails {
+    id: number;
+    name: string;
+    sprites: { front_default: string };
+    types: RawPokemonType[];
+    moves: RawPokemonMove[];
+    height: number;
+    weight: number;
+    abilities: RawPokemonAbility[];
+    stats: RawPokemonStat[];
+}
+
+export function isPokemonDetailsObject(data: unknown): data is RawPokemonDetails {
     if (typeof data !== "object" || data === null) {
         return false;
     }
@@ -13,10 +45,12 @@ export function isPokemonDetailsObject(data: unknown) {
         "sprites" in obj &&
         typeof obj.sprites === "object" &&
         !!obj.sprites &&
-        "front_default" in obj.sprites &&
-        typeof obj.sprites.front_default === "string" &&
+        "front_default" in (obj.sprites as object) &&
+        typeof (obj.sprites as Record<string, unknown>).front_default === "string" &&
         "types" in obj &&
         Array.isArray(obj.types) &&
+        "moves" in obj &&
+        Array.isArray(obj.moves) &&
         "height" in obj &&
         typeof obj.height === "number" &&
         "weight" in obj &&

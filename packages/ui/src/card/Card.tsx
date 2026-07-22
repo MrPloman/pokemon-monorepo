@@ -14,7 +14,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLElement> {
 export function Card({ img, id, title, badges, buttons, ...props }: CardProps) {
     return (
         <article className={styles.card} {...props}>
-            {/* biome-ignore lint/performance/noImgElement: PokeAPI images are external, next/image would need remotePatterns config */}
+            {/* biome-ignore lint/a11y/useAltText: alt is enforced as required in ImgProps type */}
             <img alt={img.alt} src={img.src} />
             <h2>
                 #{id}: {title[0].toUpperCase() + title.slice(1)}

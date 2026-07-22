@@ -9,55 +9,42 @@ import type {
 import { isPokemonDetailsObject } from "./validators";
 
 function mapToPokemonDetails(raw: unknown): PokemonDetails | null {
-    const pokemonDetails: any = raw;
-    if (!isPokemonDetailsObject(pokemonDetails)) return null;
-    else
-        return {
-            id: pokemonDetails.id,
-            name: pokemonDetails.name,
-            imageUrl: pokemonDetails.sprites.front_default,
-            moves: [
-                ...pokemonDetails.moves.map(
-                    (move: { move: { name: string } }) =>
-                        move.move.name[0].toLocaleUpperCase() + move.move.name.slice(1),
-                ),
-            ],
-            types: [
-                ...pokemonDetails.types.map(
-                    (typeDetected: { type: { name: string }; slot: number }) =>
-                        typeDetected.type.name,
-                ),
-            ],
-            height: pokemonDetails.height,
-            weight: pokemonDetails.weight,
-            abilities: [
-                ...pokemonDetails.abilities.map(
-                    (ability: { ability: { name: string } }) => ability.ability.name,
-                ),
-            ],
-            stats: {
-                hp:
-                    pokemonDetails.stats.find((s: RawPokemonStat) => s.stat.name === "hp")
-                        ?.base_stat ?? 0,
-                attack:
-                    pokemonDetails.stats.find((s: RawPokemonStat) => s.stat.name === "attack")
-                        ?.base_stat ?? 0,
-                defense:
-                    pokemonDetails.stats.find((s: RawPokemonStat) => s.stat.name === "defense")
-                        ?.base_stat ?? 0,
-                specialAttack:
-                    pokemonDetails.stats.find(
-                        (s: RawPokemonStat) => s.stat.name === "special-attack",
-                    )?.base_stat ?? 0,
-                specialDefense:
-                    pokemonDetails.stats.find(
-                        (s: RawPokemonStat) => s.stat.name === "special-defense",
-                    )?.base_stat ?? 0,
-                speed:
-                    pokemonDetails.stats.find((s: RawPokemonStat) => s.stat.name === "speed")
-                        ?.base_stat ?? 0,
-            },
-        };
+    if (!isPokemonDetailsObject(raw)) return null;
+    return {
+        id: raw.id,
+        name: raw.name,
+        imageUrl: raw.sprites.front_default,
+        moves: [
+            ...raw.moves.map(
+                (move: { move: { name: string } }) =>
+                    move.move.name[0].toLocaleUpperCase() + move.move.name.slice(1),
+            ),
+        ],
+        types: [
+            ...raw.types.map(
+                (typeDetected: { type: { name: PokemonType }; slot: number }) =>
+                    typeDetected.type.name,
+            ),
+        ],
+        height: raw.height,
+        weight: raw.weight,
+        abilities: [
+            ...raw.abilities.map((ability: { ability: { name: string } }) => ability.ability.name),
+        ],
+        stats: {
+            hp: raw.stats.find((s: RawPokemonStat) => s.stat.name === "hp")?.base_stat ?? 0,
+            attack: raw.stats.find((s: RawPokemonStat) => s.stat.name === "attack")?.base_stat ?? 0,
+            defense:
+                raw.stats.find((s: RawPokemonStat) => s.stat.name === "defense")?.base_stat ?? 0,
+            specialAttack:
+                raw.stats.find((s: RawPokemonStat) => s.stat.name === "special-attack")
+                    ?.base_stat ?? 0,
+            specialDefense:
+                raw.stats.find((s: RawPokemonStat) => s.stat.name === "special-defense")
+                    ?.base_stat ?? 0,
+            speed: raw.stats.find((s: RawPokemonStat) => s.stat.name === "speed")?.base_stat ?? 0,
+        },
+    };
 }
 async function findByUrl(url: string): Promise<PokemonDetails | null> {
     if (!url) return null;

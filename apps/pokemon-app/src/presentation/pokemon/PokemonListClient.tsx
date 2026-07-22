@@ -218,7 +218,7 @@ export function PokemonListClient() {
 
             {query.isLoading ? (
                 <div className={styles.cardsGrid}>
-                    {Array.from({ length: 6 }).map((_, i) => (
+                    {Array.from({ length: 6 }).map((_, i: number) => (
                         <Skeleton key={i} variant="rect" height={320} />
                     ))}
                 </div>
