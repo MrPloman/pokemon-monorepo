@@ -125,10 +125,22 @@ export class PokeApiPokemonRepository implements PokemonRepository {
 
     async findById(id: string): Promise<PokemonDetails | null> {
         if (!id) return null;
-        const response = await fetch(`${this.baseUrl}/pokemon/${id}`);
-        const pokemonDetails: unknown = await response.json();
-        if (!pokemonDetails) return null;
-        return mapToPokemonDetails(pokemonDetails);
+
+        let response: Response;
+        try {
+            response = await fetch(`${this.baseUrl}/pokemon/${id}`);
+        } catch {
+            return null;
+        }
+
+        if (!response.ok) return null;
+
+        try {
+            const pokemonDetails: unknown = await response.json();
+            return mapToPokemonDetails(pokemonDetails);
+        } catch {
+            return null;
+        }
     }
 
     async findByType(types: PokemonType[]): Promise<PokemonPreview[]> {

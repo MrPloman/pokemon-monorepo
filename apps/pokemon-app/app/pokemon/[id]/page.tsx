@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getPokemonDetailUseCase } from "@/src/composition/pokemonContainer";
 import { getTypeColor } from "@/src/presentation/pokemon/pokemonColors";
@@ -21,7 +21,7 @@ export default async function PokemonDetailPage({ params }: { params: Promise<{ 
     const pokemon = await getPokemonDetailUseCase.execute(id);
 
     if (!pokemon) {
-        notFound();
+        redirect("/pokemon");
     }
 
     const accentColor = getTypeColor(pokemon.types[0]);
