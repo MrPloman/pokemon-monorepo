@@ -1,0 +1,155 @@
+.page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.backLink {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #475569;
+    font-size: 0.9rem;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &:focus-visible {
+        outline: 2px solid #4f46e5;
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: 16px;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.heroImage {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+}
+
+.heroInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.heroNumber {
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0.85;
+}
+
+.heroName {
+    margin: 0;
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.heroBadges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.infoCard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.25rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.infoLabel {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+}
+
+.infoValue {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f172a;
+    text-transform: capitalize;
+}
+
+.section {
+    margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1rem;
+}
+
+.statsList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.statRow {
+    display: grid;
+    grid-template-columns: 110px 1fr 40px;
+    align-items: center;
+    gap: 1rem;
+}
+
+.statLabel {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.statBarTrack {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.statBarFill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.statValue {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0f172a;
+    text-align: right;
+}
+
+.movesTableWrapper {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}

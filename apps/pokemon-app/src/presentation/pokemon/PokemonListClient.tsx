@@ -1,15 +1,10 @@
 "use client";
 import styles from "./PokemonListClient.module.scss";
+import { useRouter } from "next/navigation";
 
 import { fetchPokemonList } from "@/src/actions/pokemonActions";
 import { pokemonKeys } from "@/src/queries/pokemonQueriesKeys";
-import {
-    PaginatedResult,
-    PokemonFilters,
-    PokemonPreview,
-    PokemonType,
-    ALL_POKEMON_TYPES,
-} from "@repo/core";
+import { PokemonFilters, PokemonPreview, PokemonType, ALL_POKEMON_TYPES } from "@repo/core";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getNextPageParam } from "./getNextPageParam";
@@ -23,6 +18,7 @@ import {
     TableHeaderCell,
     TableRow,
     Skeleton,
+    Button,
 } from "@repo/ui";
 import { getTypeColor } from "./pokemonColors";
 import {
@@ -36,6 +32,9 @@ import {
 
 // Function Component for the client-side rendering of the component. Pokemon page.tsx child. It renders the UI.
 export function PokemonListClient() {
+    // Setting Router
+    const router = useRouter();
+
     // Setting the useState hook to manage the filters for the query.
     const [filters, updateFilters] = useState<PokemonFilters>({
         search: "",
@@ -92,6 +91,17 @@ export function PokemonListClient() {
 
     const columns = useMemo(
         () => [
+            columnHelper.display({
+                id: "actions",
+                header: "",
+                cell: (info) => (
+                    <Button
+                        variant="secondary"
+                        label="Ver"
+                        onClick={() => router.push(`/pokemon/${info.row.original.id}`)}
+                    />
+                ),
+            }),
             columnHelper.accessor("id", {
                 header: "Número",
                 cell: (info) => info.getValue(),
@@ -216,7 +226,13 @@ export function PokemonListClient() {
                             id={String(pokemon.id)}
                             title={pokemon.name}
                             img={{ src: pokemon.imageUrl, alt: pokemon.name }}
-                            buttons={[{ variant: "primary", label: "Ver detalle" }]}
+                            buttons={[
+                                {
+                                    variant: "primary",
+                                    label: "Ver detalle",
+                                    onClick: () => router.push(`/pokemon/${pokemon.id}`),
+                                },
+                            ]}
                             badges={pokemon.types.map((type) => ({
                                 label: type,
                                 color: getTypeColor(type),

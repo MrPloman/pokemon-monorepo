@@ -11,7 +11,10 @@ function mapToPokemonDetails(raw: unknown): PokemonDetails | null {
             name: pokemonDetails.name,
             imageUrl: pokemonDetails.sprites.front_default,
             moves: [
-                ...pokemonDetails.moves.map((move: { move: { name: string } }) => move.move.name),
+                ...pokemonDetails.moves.map(
+                    (move: { move: { name: string } }) =>
+                        move.move.name[0].toLocaleUpperCase() + move.move.name.slice(1),
+                ),
             ],
             types: [
                 ...pokemonDetails.types.map(
