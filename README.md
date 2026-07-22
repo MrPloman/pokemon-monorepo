@@ -2,7 +2,8 @@
 
 Esto es una Pokédex (bastante básica) hecha con Next.js que consume la [PokeAPI](https://pokeapi.co). La hice como prueba técnica, pero también la usé como motivo para aprender Next.js en serio (venía de Angular/React/Vue, no tenia experiencia explícita en Next.js aún) y montar un monorepo desde cero.
 
-Repo: <URL_DEL_REPOSITORIO>
+Repo: [<URL_DEL_REPOSITORIO>](https://github.com/MrPloman/pokemon-monorepo)
+Demo subida a Vercel: https://pokemon-app-five-ecru.vercel.app/pokemon
 
 ## Con qué está hecho?
 
