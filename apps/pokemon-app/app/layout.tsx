@@ -7,8 +7,8 @@ import { QueryProvider } from "../src/providers/QueryProvider";
 import Head from "next/head";
 
 export const metadata: Metadata = {
-    title: "Pokédex — Prueba Técnica",
-    description: "Prueba técnica Frontend Developer — Ediversa",
+    title: "Pokedex — Technical Test",
+    description: "Technical Test Frontend Developer — Ediversa",
 };
 
 export default function RootLayout({
@@ -24,8 +24,8 @@ export default function RootLayout({
             <body>
                 <QueryProvider>
                     <Layout
-                        header={<span>Pokédex</span>}
-                        footer={<span>Prueba técnica — Ediversa</span>}
+                        header={<span>Pokedex</span>}
+                        footer={<span>{metadata.description}</span>}
                     >
                         {children}
                     </Layout>

@@ -181,8 +181,8 @@ export function PokemonListClient() {
                         className={styles.searchInput}
                         value={filters.search}
                         onChange={(e) => searchChanged(e.target.value)}
-                        placeholder="Buscar Pokémon..."
-                        aria-label="Buscar Pokémon por nombre"
+                        placeholder="Search Pokemon..."
+                        aria-label="Search Pokemon by name..."
                     />
                     <button
                         type="button"
@@ -190,7 +190,7 @@ export function PokemonListClient() {
                         onClick={() => setView((v) => (v === "cards" ? "table" : "cards"))}
                         aria-pressed={view === "table"}
                     >
-                        Ver como {view === "cards" ? "tabla" : "tarjetas"}
+                        View as {view === "cards" ? "table" : "cards"}
                     </button>
                 </div>
 
@@ -229,7 +229,7 @@ export function PokemonListClient() {
                             buttons={[
                                 {
                                     variant: "primary",
-                                    label: "Ver detalle",
+                                    label: "View Detail",
                                     onClick: () => router.push(`/pokemon/${pokemon.id}`),
                                 },
                             ]}
@@ -290,9 +290,7 @@ export function PokemonListClient() {
             {query.hasNextPage && (
                 <>
                     <div ref={sentinelRef} style={{ height: "1px" }} />
-                    {query.isFetchingNextPage && (
-                        <p className={styles.loadingMore}>Cargando más...</p>
-                    )}
+                    {query.isFetchingNextPage && <p className={styles.loadingMore}>Loading...</p>}
                 </>
             )}
         </div>
