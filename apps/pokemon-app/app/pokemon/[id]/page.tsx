@@ -34,8 +34,7 @@ export default async function PokemonDetailPage({ params }: { params: Promise<{ 
             </Link>
 
             <header className={styles.hero} style={{ backgroundColor: accentColor }}>
-                {/* biome-ignore lint/a11y/useAltText: alt is enforced as required in ImgProps type */}
-
+                {/* biome-ignore lint/performance/noImgElement: PokeAPI images are external, next/image would need remotePatterns config */}
                 <img
                     src={pokemon.imageUrl}
                     alt={pokemon.name}

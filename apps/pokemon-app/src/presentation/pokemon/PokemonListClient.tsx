@@ -140,7 +140,7 @@ export function PokemonListClient() {
                 enableSorting: false,
             }),
         ],
-        [columnHelper],
+        [columnHelper, router.push],
     );
 
     const table = useReactTable({
@@ -219,7 +219,8 @@ export function PokemonListClient() {
             {query.isLoading ? (
                 <div className={styles.cardsGrid}>
                     {Array.from({ length: 6 }).map((_, i: number) => (
-                        <Skeleton key={i} variant="rect" height={320} />
+                        /* biome-ignore lint/suspicious/noArrayIndexKey: static placeholder list, never reorders */
+                        <Skeleton key={`skeleton${i}`} variant="rect" height={320} />
                     ))}
                 </div>
             ) : view === "cards" ? (
