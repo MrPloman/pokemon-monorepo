@@ -10,6 +10,9 @@ function mapToPokemonDetails(raw: unknown): PokemonDetails | null {
             id: pokemonDetails.id,
             name: pokemonDetails.name,
             imageUrl: pokemonDetails.sprites.front_default,
+            moves: [
+                ...pokemonDetails.moves.map((move: { move: { name: string } }) => move.move.name),
+            ],
             types: [
                 ...pokemonDetails.types.map(
                     (typeDetected: { type: { name: string }; slot: number }) =>

@@ -105,6 +105,7 @@ class FakePokemonRepository implements PokemonRepository {
                 height: 1,
                 weight: 1,
                 abilities: ["None"],
+                moves: [],
                 stats: {
                     hp: 1,
                     attack: 1,

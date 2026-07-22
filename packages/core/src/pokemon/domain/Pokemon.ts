@@ -54,6 +54,7 @@ export interface PokemonDetails extends PokemonPreview {
     height: number;
     weight: number;
     abilities: string[];
+    moves: string[];
     stats: {
         hp: number;
         attack: number;
