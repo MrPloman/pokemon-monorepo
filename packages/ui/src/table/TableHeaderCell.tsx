@@ -1,5 +1,5 @@
-import { SortIcon } from "./SortIcon";
 import type { ThHTMLAttributes } from "react";
+import { SortIcon } from "./SortIcon";
 import styles from "./TableHeaderCell.module.scss";
 
 export interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {

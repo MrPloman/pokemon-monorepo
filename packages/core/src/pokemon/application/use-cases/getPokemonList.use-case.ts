@@ -1,6 +1,11 @@
-import { isPokemonType, PokemonDetails, PokemonPreview, PokemonType } from "../../domain/Pokemon";
-import { PokemonFilters } from "../interfaces/PokemonFilters";
-import { PaginatedResult, PokemonRepository } from "../ports/PokemonRepository";
+import {
+    isPokemonType,
+    type PokemonDetails,
+    type PokemonPreview,
+    type PokemonType,
+} from "../../domain/Pokemon";
+import type { PokemonFilters } from "../interfaces/PokemonFilters";
+import type { PaginatedResult, PokemonRepository } from "../ports/PokemonRepository";
 export interface GetPokemonListParams {
     limit?: number;
     offset?: number;
@@ -39,7 +44,7 @@ export class GetPokemonListUseCase {
         }
 
         const allNames = await this.pokemonRepository.findAllNames();
-        const search = filters!.search!.toLowerCase();
+        const search = filters?.search?.toLowerCase() ?? "";
         let matches = allNames.filter((p) => p.name.toLowerCase().startsWith(search));
 
         if (hasTypes) {

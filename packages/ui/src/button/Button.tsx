@@ -1,5 +1,5 @@
-import styles from "./Button.module.scss";
 import type { ButtonHTMLAttributes } from "react";
+import styles from "./Button.module.scss";
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
     variant?: "primary" | "secondary";

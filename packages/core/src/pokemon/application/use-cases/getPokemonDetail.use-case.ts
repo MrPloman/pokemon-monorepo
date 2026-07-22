@@ -1,5 +1,5 @@
-import { PokemonDetails } from "../../domain/Pokemon";
-import { PokemonRepository } from "../ports/PokemonRepository";
+import type { PokemonDetails } from "../../domain/Pokemon";
+import type { PokemonRepository } from "../ports/PokemonRepository";
 export class GetPokemonDetailUseCase {
     constructor(private readonly pokemonRepository: PokemonRepository) {}
     async execute(id: string): Promise<PokemonDetails | null> {

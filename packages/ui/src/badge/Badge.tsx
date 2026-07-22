@@ -1,6 +1,6 @@
-import styles from "./Badge.module.scss";
 import type { ButtonHTMLAttributes } from "react";
 import { getAccessibleTextColor } from "../utils/getAccessibleTextColor";
+import styles from "./Badge.module.scss";
 
 export interface BadgeProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     label: string;

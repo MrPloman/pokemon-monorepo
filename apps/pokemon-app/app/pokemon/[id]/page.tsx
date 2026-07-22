@@ -1,8 +1,8 @@
-import { redirect } from "next/navigation";
+import { Badge, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "@repo/ui";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getPokemonDetailUseCase } from "@/src/composition/pokemonContainer";
 import { getTypeColor } from "@/src/presentation/pokemon/pokemonColors";
-import { Badge, Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from "@repo/ui";
 import styles from "./PokemonDetailPage.module.scss";
 
 const STAT_LABELS: Record<string, string> = {

@@ -1,5 +1,5 @@
-import styles from "./Table.module.scss";
 import type { TableHTMLAttributes } from "react";
+import styles from "./Table.module.scss";
 
 export interface TableProps extends TableHTMLAttributes<HTMLTableElement> {}
 

@@ -1,9 +1,15 @@
-import type { PokemonDetails, PokemonPreview, PokemonType } from "@repo/core";
-import { PaginatedResult, PokemonRepository } from "@repo/core";
+import type {
+    PaginatedResult,
+    PokemonDetails,
+    PokemonPreview,
+    PokemonRepository,
+    PokemonType,
+    RawPokemonStat,
+} from "@repo/core";
 import { isPokemonDetailsObject } from "./validators";
 
 function mapToPokemonDetails(raw: unknown): PokemonDetails | null {
-    let pokemonDetails: any = raw;
+    const pokemonDetails: any = raw;
     if (!isPokemonDetailsObject(pokemonDetails)) return null;
     else
         return {
@@ -30,20 +36,26 @@ function mapToPokemonDetails(raw: unknown): PokemonDetails | null {
                 ),
             ],
             stats: {
-                hp: pokemonDetails.stats.find((s: any) => s.stat.name === "hp")?.base_stat ?? 0,
+                hp:
+                    pokemonDetails.stats.find((s: RawPokemonStat) => s.stat.name === "hp")
+                        ?.base_stat ?? 0,
                 attack:
-                    pokemonDetails.stats.find((s: any) => s.stat.name === "attack")?.base_stat ?? 0,
+                    pokemonDetails.stats.find((s: RawPokemonStat) => s.stat.name === "attack")
+                        ?.base_stat ?? 0,
                 defense:
-                    pokemonDetails.stats.find((s: any) => s.stat.name === "defense")?.base_stat ??
-                    0,
+                    pokemonDetails.stats.find((s: RawPokemonStat) => s.stat.name === "defense")
+                        ?.base_stat ?? 0,
                 specialAttack:
-                    pokemonDetails.stats.find((s: any) => s.stat.name === "special-attack")
-                        ?.base_stat ?? 0,
+                    pokemonDetails.stats.find(
+                        (s: RawPokemonStat) => s.stat.name === "special-attack",
+                    )?.base_stat ?? 0,
                 specialDefense:
-                    pokemonDetails.stats.find((s: any) => s.stat.name === "special-defense")
-                        ?.base_stat ?? 0,
+                    pokemonDetails.stats.find(
+                        (s: RawPokemonStat) => s.stat.name === "special-defense",
+                    )?.base_stat ?? 0,
                 speed:
-                    pokemonDetails.stats.find((s: any) => s.stat.name === "speed")?.base_stat ?? 0,
+                    pokemonDetails.stats.find((s: RawPokemonStat) => s.stat.name === "speed")
+                        ?.base_stat ?? 0,
             },
         };
 }
@@ -81,7 +93,7 @@ export class PokeApiPokemonRepository implements PokemonRepository {
 
         const resolvedList = await Promise.all(pokemonPromises);
 
-        let pokemonList: PokemonDetails[] = resolvedList.filter(
+        const pokemonList: PokemonDetails[] = resolvedList.filter(
             (pokemon): pokemon is PokemonDetails => pokemon !== null,
         );
         if (!pokemonList || pokemonList.length === 0 || !Array.isArray(pokemonList))

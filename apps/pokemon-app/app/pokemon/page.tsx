@@ -1,9 +1,9 @@
-import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-import { fetchPokemonList } from "../../src/actions/pokemonActions";
-import { pokemonKeys } from "@/src/queries/pokemonQueriesKeys";
-import { PokemonListClient } from "@/src/presentation/pokemon/PokemonListClient";
-import { PokemonFilters } from "@repo/core";
+import type { PokemonFilters } from "@repo/core";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { getNextPageParam } from "@/src/presentation/pokemon/getNextPageParam";
+import { PokemonListClient } from "@/src/presentation/pokemon/PokemonListClient";
+import { pokemonKeys } from "@/src/queries/pokemonQueriesKeys";
+import { fetchPokemonList } from "../../src/actions/pokemonActions";
 
 // Server Component Parent. This whole system is designed to prefetch the first call without using client-side rendering. No javascript needed.
 export default async function PokemonListPage() {

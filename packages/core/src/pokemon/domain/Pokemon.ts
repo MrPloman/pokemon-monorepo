@@ -64,3 +64,8 @@ export interface PokemonDetails extends PokemonPreview {
         speed: number;
     };
 }
+
+export interface RawPokemonStat {
+    base_stat: number;
+    stat: { name: string };
+}

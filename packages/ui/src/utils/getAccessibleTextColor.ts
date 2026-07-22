@@ -9,7 +9,7 @@ function hexToRgb(hex: string): [number, number, number] {
 function relativeLuminance(hex: string): number {
     const [r, g, b] = hexToRgb(hex).map((c) => {
         const s = c / 255;
-        return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+        return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
     });
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }

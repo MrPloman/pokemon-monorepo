@@ -1,4 +1,4 @@
-import { PaginatedResult } from "@repo/core";
+import type { PaginatedResult } from "@repo/core";
 
 export function getNextPageParam<T>(
     lastPage: PaginatedResult<T>,

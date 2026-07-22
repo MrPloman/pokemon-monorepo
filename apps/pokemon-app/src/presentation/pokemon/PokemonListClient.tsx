@@ -1,34 +1,38 @@
 "use client";
-import styles from "./PokemonListClient.module.scss";
-import { useRouter } from "next/navigation";
-
-import { fetchPokemonList } from "@/src/actions/pokemonActions";
-import { pokemonKeys } from "@/src/queries/pokemonQueriesKeys";
-import { PokemonFilters, PokemonPreview, PokemonType, ALL_POKEMON_TYPES } from "@repo/core";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { getNextPageParam } from "./getNextPageParam";
+import {
+    ALL_POKEMON_TYPES,
+    type PokemonFilters,
+    type PokemonPreview,
+    type PokemonType,
+} from "@repo/core";
 import {
     Badge,
+    Button,
     Card,
+    Skeleton,
     Table,
     TableBody,
     TableCell,
     TableHead,
     TableHeaderCell,
     TableRow,
-    Skeleton,
-    Button,
 } from "@repo/ui";
-import { getTypeColor } from "./pokemonColors";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import {
-    useReactTable,
+    createColumnHelper,
+    flexRender,
     getCoreRowModel,
     getSortedRowModel,
-    flexRender,
-    createColumnHelper,
     type SortingState,
+    useReactTable,
 } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { fetchPokemonList } from "@/src/actions/pokemonActions";
+import { pokemonKeys } from "@/src/queries/pokemonQueriesKeys";
+import { getNextPageParam } from "./getNextPageParam";
+import styles from "./PokemonListClient.module.scss";
+import { getTypeColor } from "./pokemonColors";
 
 // Function Component for the client-side rendering of the component. Pokemon page.tsx child. It renders the UI.
 export function PokemonListClient() {

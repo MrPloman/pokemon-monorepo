@@ -1,6 +1,6 @@
 // packages/core/src/pokemon/application/use-cases/getPokemonList.test.ts
 import { describe, expect, it } from "vitest";
-import { PokemonDetails, PokemonPreview, PokemonType } from "../../domain/Pokemon";
+import type { PokemonDetails, PokemonPreview, PokemonType } from "../../domain/Pokemon";
 import type { PaginatedResult, PokemonRepository } from "../ports/PokemonRepository";
 import { GetPokemonListUseCase } from "./getPokemonList.use-case";
 

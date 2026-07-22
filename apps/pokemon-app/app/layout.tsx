@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import "./globals.scss";
 import "@repo/ui/dist/index.css";
 import { Layout } from "@repo/ui";
-import { QueryProvider } from "../src/providers/QueryProvider";
 import Head from "next/head";
+import { QueryProvider } from "../src/providers/QueryProvider";
 
 export const metadata: Metadata = {
     title: "Pokedex — Technical Test",
